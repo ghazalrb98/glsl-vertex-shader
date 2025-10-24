@@ -3,6 +3,7 @@ uniform samplerCube specMap;
 
 varying vec3 vNormal;
 varying vec3 vPosition;
+varying vec4 vColor;
 
 float inverseLerp(float v, float minValue, float maxValue) {
   return (v - minValue) / (maxValue - minValue);
@@ -14,7 +15,28 @@ float remap(float v, float inMin, float inMax, float outMin, float outMax) {
 }
 
 void main() {
-  vec3 modelColour = vec3(0.5);
+  vec3 modelColour = vColor.xyz;
+  vec3 red = vec3(1.0, 0.0, 0.0);
+  vec3 blue = vec3(0.0, 0.0, 1.0);
+  vec3 yellow = vec3(1.0, 1.0, 0.0);
+
+  float value1 = vColor.w;
+  float line1 = smoothstep(0.003, 0.004, abs(vPosition.y - mix(-0.5, 0.0, value1)));
+  vec3 modelColor1 = vColor.xyz;
+  modelColour = mix(yellow, modelColor1, line1);
+
+  if (vPosition.y > 0.0)
+  {
+    float t = remap(vPosition.x, -0.5, 0.5, 0.0, 1.0);
+    t = pow(t, 2.0);
+    float line = smoothstep(0.003, 0.004, abs(vPosition.y - mix(0.0, 0.5, t)));
+    modelColour = mix(red, blue, t);
+    modelColour = mix(yellow, modelColour, line);
+  }
+
+  float middleLine = smoothstep(0.004, 0.005, abs(vPosition.y));
+  modelColour = mix(vec3(0.0), modelColour, middleLine);
+
   vec3 lighting = vec3(0.0);
 
   vec3 normal = normalize(vNormal);
