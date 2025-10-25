@@ -5,19 +5,16 @@ varying vec4 vColor;
 
 uniform float time;
 
-float inverseLerp(float v, float minValue, float maxValue)
-{
+float inverseLerp(float v, float minValue, float maxValue) {
   return (v - minValue) / (maxValue - minValue);
 }
 
-float remap(float v, float inMin, float inMax, float outMin, float outMax)
-{
+float remap(float v, float inMin, float inMax, float outMin, float outMax) {
   float t = inverseLerp(v, inMin, inMax);
   return mix(outMin, outMax, t);
 }
 
-mat3 rotateY(float radians)
-{
+mat3 rotateY(float radians) {
   float s = sin(radians);
   float c = cos(radians);
 
@@ -28,8 +25,7 @@ mat3 rotateY(float radians)
   );
 }
 
-mat3 rotateX(float radians)
-{
+mat3 rotateX(float radians) {
   float s = sin(radians);
   float c = cos(radians);
 
@@ -40,8 +36,7 @@ mat3 rotateX(float radians)
   );
 }
 
-mat3 rotateZ(float radians)
-{
+mat3 rotateZ(float radians) {
   float s = sin(radians);
   float c = cos(radians);
 

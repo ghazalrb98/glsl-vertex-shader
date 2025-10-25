@@ -27,7 +27,7 @@ class SimonDevGLSLCourse {
       0.1,
       1000.0
     );
-    this.camera_.position.set(0, 0, 1.5);
+    this.camera_.position.set(1, 0, 3);
 
     const controls = new OrbitControls(this.camera_, this.threejs_.domElement);
     controls.target.set(0, 0, 0);
@@ -53,8 +53,8 @@ class SimonDevGLSLCourse {
   }
 
   async setupProject_() {
-    const vsh = await fetch("./shaders/vertex-shader.glsl");
-    const fsh = await fetch("./shaders/fragment-shader.glsl");
+    const vsh = await fetch("./shaders/vertex-shader-2.glsl");
+    const fsh = await fetch("./shaders/fragment-shader-2.glsl");
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
@@ -71,9 +71,18 @@ class SimonDevGLSLCourse {
 
     this.material_ = material;
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1, 4);
-    const mesh = new THREE.Mesh(geometry, material);
-    this.scene_.add(mesh);
+    const loader = new GLTFLoader();
+    loader.setPath("./resources/");
+    loader.load("suzanne.glb", (gltf) => {
+      gltf.scene.traverse((c) => {
+        c.material = material;
+      });
+      this.scene_.add(gltf.scene);
+    });
+
+    // const geometry = new THREE.BoxGeometry(1, 1, 1, 4);
+    // const mesh = new THREE.Mesh(geometry, material);
+    // this.scene_.add(mesh);
 
     this.totalTime_ = 0;
     this.onWindowResize_();
