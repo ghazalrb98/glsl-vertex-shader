@@ -3,6 +3,7 @@ uniform samplerCube specMap;
 
 varying vec3 vNormal;
 varying vec3 vPosition;
+varying vec3 vColor;
 
 float inverseLerp(float v, float minValue, float maxValue) {
   return (v - minValue) / (maxValue - minValue);
@@ -14,12 +15,14 @@ float remap(float v, float inMin, float inMax, float outMin, float outMax) {
 }
 
 void main() {
-    vec3 modelColour = vec3(0.5);
+    vec3 modelColour = vColor;
 
     vec3 lighting = vec3(0.0);
 
     vec3 normal = normalize(vNormal);
     vec3 viewDir = normalize(cameraPosition - vPosition);
+
+    normal = normalize(cross(dFdx(vPosition), dFdy(vPosition)));
 
     // Ambient
     vec3 ambient = vec3(1.0);

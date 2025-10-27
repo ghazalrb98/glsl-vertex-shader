@@ -53,7 +53,7 @@ class SimonDevGLSLCourse {
   }
 
   async setupProject_() {
-    const vsh = await fetch("./shaders/vertex-shader-2.glsl");
+    const vsh = await fetch("./shaders/vertex-shader-3.glsl");
     const fsh = await fetch("./shaders/fragment-shader-2.glsl");
 
     const material = new THREE.ShaderMaterial({
@@ -71,18 +71,18 @@ class SimonDevGLSLCourse {
 
     this.material_ = material;
 
-    const loader = new GLTFLoader();
-    loader.setPath("./resources/");
-    loader.load("suzanne.glb", (gltf) => {
-      gltf.scene.traverse((c) => {
-        c.material = material;
-      });
-      this.scene_.add(gltf.scene);
-    });
+    // const loader = new GLTFLoader();
+    // loader.setPath("./resources/");
+    // loader.load("suzanne.glb", (gltf) => {
+    //   gltf.scene.traverse((c) => {
+    //     c.material = material;
+    //   });
+    //   this.scene_.add(gltf.scene);
+    // });
 
-    // const geometry = new THREE.BoxGeometry(1, 1, 1, 4);
-    // const mesh = new THREE.Mesh(geometry, material);
-    // this.scene_.add(mesh);
+    const geometry = new THREE.IcosahedronGeometry(1, 128);
+    const mesh = new THREE.Mesh(geometry, material);
+    this.scene_.add(mesh);
 
     this.totalTime_ = 0;
     this.onWindowResize_();
